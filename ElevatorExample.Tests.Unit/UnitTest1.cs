@@ -134,4 +134,85 @@ public class Tests
             _mockConsole.WriteLine("Closing Door");
         });
     }
+    
+    [Test]
+    public void ElevatorWillKeepInitialUpDirectionConsistent_AndMakePitStopsForSaidDirection()
+    {
+        _elevator.FloorRequestElevator(2, ElevatorDirection.Up);
+        _elevator.FloorRequestElevator(3, ElevatorDirection.Down);
+        _elevator.FloorRequestElevator(5, ElevatorDirection.Up);
+        _elevator.FloorRequestElevator(1, ElevatorDirection.Down);
+
+        _elevator.StartElevator();
+        
+        Received.InOrder(() =>
+        {
+            _mockConsole.WriteLine("Moving To Floor 2");
+            _mockConsole.WriteLine("Arrived At Floor 2");
+            _mockConsole.WriteLine("Opening Door");
+            _mockConsole.WriteLine("Closing Door");
+            _mockConsole.WriteLine("Moving To Floor 5");
+            _mockConsole.WriteLine("Passing Floor 3");
+            _mockConsole.WriteLine("Passing Floor 4");
+            _mockConsole.WriteLine("Arrived At Floor 5");
+            _mockConsole.WriteLine("Opening Door");
+            _mockConsole.WriteLine("Closing Door");
+            _mockConsole.WriteLine("Moving To Floor 3");
+            _mockConsole.WriteLine("Passing Floor 4");
+            _mockConsole.WriteLine("Arrived At Floor 3");
+            _mockConsole.WriteLine("Opening Door");
+            _mockConsole.WriteLine("Closing Door");
+            _mockConsole.WriteLine("Moving To Floor 1");
+            _mockConsole.WriteLine("Passing Floor 2");
+            _mockConsole.WriteLine("Arrived At Floor 1");
+            _mockConsole.WriteLine("Opening Door");
+            _mockConsole.WriteLine("Closing Door");
+        });
+    }
+    
+    [Test]
+    public void OnceElevatorReachesTop_ItWillReversDirection_ThenWillReverseAgain()
+    {
+        _elevator.FloorRequestElevator(5, ElevatorDirection.Up);
+        _elevator.FloorRequestElevator(3, ElevatorDirection.Down);
+        _elevator.FloorRequestElevator(4, ElevatorDirection.Up);
+        _elevator.FloorRequestElevator(1, ElevatorDirection.Down);
+        _elevator.FloorRequestElevator(2, ElevatorDirection.Up);
+
+        _elevator.StartElevator();
+        
+        Received.InOrder(() =>
+        {
+            _mockConsole.WriteLine("Moving To Floor 5");
+            _mockConsole.WriteLine("Passing Floor 2");
+            _mockConsole.WriteLine("Passing Floor 3");            
+            _mockConsole.WriteLine("Passing Floor 4");
+            _mockConsole.WriteLine("Arrived At Floor 5");
+            _mockConsole.WriteLine("Opening Door");
+            _mockConsole.WriteLine("Closing Door");
+            _mockConsole.WriteLine("Moving To Floor 3");
+            _mockConsole.WriteLine("Passing Floor 4");
+            _mockConsole.WriteLine("Arrived At Floor 3");
+            _mockConsole.WriteLine("Opening Door");
+            _mockConsole.WriteLine("Closing Door");
+            _mockConsole.WriteLine("Moving To Floor 1");
+            _mockConsole.WriteLine("Passing Floor 2");
+            _mockConsole.WriteLine("Arrived At Floor 1");
+            _mockConsole.WriteLine("Opening Door");
+            _mockConsole.WriteLine("Closing Door");
+            _mockConsole.WriteLine("Moving To Floor 4");
+            _mockConsole.WriteLine("Passing Floor 2");
+            _mockConsole.WriteLine("Passing Floor 3");
+            _mockConsole.WriteLine("Arrived At Floor 4");
+            _mockConsole.WriteLine("Opening Door");
+            _mockConsole.WriteLine("Closing Door");
+            _mockConsole.WriteLine("Moving To Floor 2");
+            _mockConsole.WriteLine("Passing Floor 3");
+            _mockConsole.WriteLine("Arrived At Floor 2");
+            _mockConsole.WriteLine("Opening Door");
+            _mockConsole.WriteLine("Closing Door");
+        });
+    }
+
+
 }

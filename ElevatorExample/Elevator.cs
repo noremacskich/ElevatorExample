@@ -33,6 +33,14 @@ internal sealed class Elevator
 
     }
     
+    public void ElevatorRequest(int floor)
+    {
+        // This is where a more dynamic solution would be warrented.
+        // This will always return up since the elevator starts at 1
+        var elevatorDirection = floor >= CurrentFloor ? ElevatorDirection.Up : ElevatorDirection.Down;
+        _floorQueue.Add(new FloorRequest(floor, elevatorDirection));
+    }
+    
     private void OpenDoor()
     {
         Console.WriteLine("Opening Door");
@@ -51,12 +59,37 @@ internal sealed class Elevator
             Console.WriteLine("You need to add floors first!");
         }
 
-        foreach (var floor in _floorQueue)
+        var initialDirection = _floorQueue.First().direction;
+
+        var initialElevatorDirection = _floorQueue.Where(x => x.direction == initialDirection).ToList();
+
+        var maxValue = initialElevatorDirection.Max(x => x.number);
+        var minValue = initialElevatorDirection.Min(x => x.number);
+        
+        
+        foreach (var floor in initialElevatorDirection)
         {
             MoveToFloor(floor.number);
+            _floorQueue.Remove(floor);
+            
+            // Can I state that this is always max value?
+            if (floor.number == maxValue)
+            {
+                var secondElevatorDirection = _floorQueue.Where(x => x.direction != initialDirection).ToList();
+                 
+                foreach (var oppositeFloor in secondElevatorDirection)
+                {
+                    MoveToFloor(oppositeFloor.number);
+                    _floorQueue.Remove(floor);
+                    
+                    // Can I state that this is always min value?
+                    if (floor.number == minValue)
+                    {
+                        break;
+                    }
+                }
+            }
         }
-        
-        _floorQueue.Clear();
     }
     
     private void MoveToFloor(int floor)
