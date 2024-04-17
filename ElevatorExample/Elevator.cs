@@ -27,20 +27,31 @@ internal sealed class Elevator
             Console.WriteLine($"That floor does not exist.  The floor range is from {BottomFloor} to {TopFloor}.");
             return;
         }
-        if (floor == CurrentFloor)
+        if (floor != CurrentFloor)
         {
-            OpenDoor();
+            MoveToFloor(floor);
         }
+
+        OpenDoor();
     }
     
     private void OpenDoor()
     {
-        Console.WriteLine("Opening door...");
+        Console.WriteLine("Opening Door");
         CloseDoor();
     }
 
     private void CloseDoor()
     {
-        Console.WriteLine("Closing door...");
+        Console.WriteLine("Closing Door");
+    }
+    
+    private void MoveToFloor(int floor)
+    {
+        Console.WriteLine($"Moving To Floor {floor}");
+
+        CurrentFloor = floor;
+       
+        Console.WriteLine($"Arrived At Floor {CurrentFloor}");
     }
 }

@@ -40,9 +40,37 @@ public class Tests
 
         Received.InOrder(() =>
         {
-            _mockConsole.WriteLine("Opening door...");
-            _mockConsole.WriteLine("Closing door...");
+            _mockConsole.WriteLine("Opening Door");
+            _mockConsole.WriteLine("Closing Door");
         });
         
     }
+
+    [Test]
+    public void IfFloorIsImmediatelyAboveAndBelowElevator_ShowMovingAndArrivedMessages()
+    {
+        _elevator.FloorRequestElevator(2);
+        
+        
+        Received.InOrder(() =>
+        {
+            _mockConsole.WriteLine("Moving To Floor 2");
+            _mockConsole.WriteLine("Arrived At Floor 2");
+            _mockConsole.WriteLine("Opening Door");
+            _mockConsole.WriteLine("Closing Door");
+        });
+        
+        _mockConsole.ClearReceivedCalls();
+
+        _elevator.FloorRequestElevator(1);
+        
+        Received.InOrder(() =>
+        {
+            _mockConsole.WriteLine("Moving To Floor 1");
+            _mockConsole.WriteLine("Arrived At Floor 1");
+            _mockConsole.WriteLine("Opening Door");
+            _mockConsole.WriteLine("Closing Door");
+        });
+    }
+
 }
