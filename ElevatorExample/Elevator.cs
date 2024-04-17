@@ -21,7 +21,13 @@ internal sealed class Elevator
         Console = consoleWriter;
     }
 
-    public void FloorRequestElevator(int floor, ElevatorDirection direction)
+    /// <summary>
+    /// The user is on a floor requesting elevator access.  On the first and last floors, it won't matter what direction
+    /// they choose, as the floor selection itself will be handled in the Elevator request
+    /// </summary>
+    /// <param name="floor">A value between 1 and 5</param>
+    /// <param name="direction">The Direction they wish to go</param>
+    public void FloorRequest(int floor, ElevatorDirection direction)
     {
         if (floor > TopFloor || floor < BottomFloor)
         {
@@ -33,10 +39,21 @@ internal sealed class Elevator
 
     }
     
+    /// <summary>
+    /// This is basically identical to the above function, only difference is that you need to be aware of what floor
+    /// you are on when the request is made, to determine the direction of the request.  (Yet to be implemented)
+    /// </summary>
+    /// <param name="floor">The floor the user is requesting</param>
     public void ElevatorRequest(int floor)
     {
-        // This is where a more dynamic solution would be warrented.
-        // This will always return up since the elevator starts at 1
+        if (floor > TopFloor || floor < BottomFloor)
+        {
+            Console.WriteLine($"That floor does not exist.  The floor range is from {BottomFloor} to {TopFloor}.");
+            return;
+        }
+        
+        // This logic would work if the elevator was actively running, but since I'm loading in requests up front, this 
+        // needs to be moved into the Start Elevator function
         var elevatorDirection = floor >= CurrentFloor ? ElevatorDirection.Up : ElevatorDirection.Down;
         _floorQueue.Add(new FloorRequest(floor, elevatorDirection));
     }
@@ -52,6 +69,10 @@ internal sealed class Elevator
         Console.WriteLine("Closing Door");
     }
 
+    /// <summary>
+    /// I'm considering getting a background task in place to run the elevator and allow live inputs to be out of scope
+    /// for this excercise
+    /// </summary>
     public void StartElevator()
     {
         if (_floorQueue.Count == 0)
@@ -72,7 +93,7 @@ internal sealed class Elevator
             MoveToFloor(floor.number);
             _floorQueue.Remove(floor);
             
-            // Can I state that this is always max value?
+            // TODO: Can I state that this is always max value? - Gut Says no with addition of Elevator Request
             if (floor.number == maxValue)
             {
                 var secondElevatorDirection = _floorQueue.Where(x => x.direction != initialDirection).ToList();
@@ -82,7 +103,7 @@ internal sealed class Elevator
                     MoveToFloor(oppositeFloor.number);
                     _floorQueue.Remove(floor);
                     
-                    // Can I state that this is always min value?
+                    // TODO: Can I state that this is always min value?  - Gut Says no with addition of Elevator Request
                     if (floor.number == minValue)
                     {
                         break;
