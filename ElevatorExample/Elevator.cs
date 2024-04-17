@@ -9,6 +9,7 @@ internal sealed class Elevator
     private int TopFloor = 5;
     private int BottomFloor = 1;
     private int CurrentFloor = 1;
+    private List<FloorRequest> _floorQueue = new();
 
     public Elevator()
     {
@@ -20,7 +21,7 @@ internal sealed class Elevator
         Console = consoleWriter;
     }
 
-    public void FloorRequestElevator(int floor)
+    public void FloorRequestElevator(int floor, ElevatorDirection direction)
     {
         if (floor > TopFloor || floor < BottomFloor)
         {
@@ -28,6 +29,7 @@ internal sealed class Elevator
             return;
         }
         
+        _floorQueue.Add(new FloorRequest(floor, direction));
         if (floor != CurrentFloor)
         {
             MoveToFloor(floor);

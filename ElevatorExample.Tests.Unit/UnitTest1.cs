@@ -18,7 +18,7 @@ public class Tests
     [Test]
     public void IfFloorRequestIsToLow_TellUserFloorRange()
     {
-        _elevator.FloorRequestElevator(-1);
+        _elevator.FloorRequestElevator(-1, ElevatorDirection.Down);
 
         _mockConsole.Received(1).WriteLine("That floor does not exist.  The floor range is from 1 to 5.");
         Assert.That(_mockConsole.ReceivedCalls().Count(), Is.EqualTo(1));
@@ -27,7 +27,7 @@ public class Tests
     [Test]
     public void IfFloorRequestIsToHigh_TellUserFloorRange()
     {
-        _elevator.FloorRequestElevator(10);
+        _elevator.FloorRequestElevator(10, ElevatorDirection.Up);
 
         _mockConsole.Received(1).WriteLine("That floor does not exist.  The floor range is from 1 to 5.");
         Assert.That(_mockConsole.ReceivedCalls().Count(), Is.EqualTo(1));
@@ -36,7 +36,7 @@ public class Tests
     [Test]
     public void DoorOpensAndCloses_IfElevatorIsOnSameFloor()
     {
-        _elevator.FloorRequestElevator(1);
+        _elevator.FloorRequestElevator(1, ElevatorDirection.Up);
 
         Received.InOrder(() =>
         {
@@ -49,7 +49,7 @@ public class Tests
     [Test]
     public void IfFloorIsImmediatelyAboveAndBelowElevator_ShowMovingAndArrivedMessages()
     {
-        _elevator.FloorRequestElevator(2);
+        _elevator.FloorRequestElevator(2, ElevatorDirection.Up);
         
         
         Received.InOrder(() =>
@@ -62,7 +62,7 @@ public class Tests
         
         _mockConsole.ClearReceivedCalls();
 
-        _elevator.FloorRequestElevator(1);
+        _elevator.FloorRequestElevator(1, ElevatorDirection.Down);
         
         Received.InOrder(() =>
         {
@@ -76,7 +76,7 @@ public class Tests
     [Test]
     public void ShowPassingFloorMessages_WhenFloorDifferenceIsMoreThenOne()
     {
-        _elevator.FloorRequestElevator(4);
+        _elevator.FloorRequestElevator(4, ElevatorDirection.Up);
         
         
         Received.InOrder(() =>
@@ -91,7 +91,7 @@ public class Tests
         
         _mockConsole.ClearReceivedCalls();
 
-        _elevator.FloorRequestElevator(1);
+        _elevator.FloorRequestElevator(1, ElevatorDirection.Down);
         
         Received.InOrder(() =>
         {
@@ -107,9 +107,9 @@ public class Tests
     [Test]
     public void WhileMovingBetweenFloors_ItWillStatAllFloorsItIsPassing()
     {
-        _elevator.FloorRequestElevator(2);
-        _elevator.FloorRequestElevator(5);
-        _elevator.FloorRequestElevator(3);
+        _elevator.FloorRequestElevator(2, ElevatorDirection.Up);
+        _elevator.FloorRequestElevator(5, ElevatorDirection.Up);
+        _elevator.FloorRequestElevator(3, ElevatorDirection.Down);
         
         Received.InOrder(() =>
         {
