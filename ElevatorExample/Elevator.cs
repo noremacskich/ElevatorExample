@@ -71,7 +71,9 @@ internal sealed class Elevator
 
     /// <summary>
     /// I'm considering getting a background task in place to run the elevator and allow live inputs to be out of scope
-    /// for this excercise
+    /// for this excercise.  The key here is that the elevator needs to stay in the same direction as it's traversing floors.
+    /// Once it reaches the top or bottom floor in the queue, it needs to reverse direction, and take care of floors in the
+    /// opposite direction. It needs to continue doing that until all floors have been visited.
     /// </summary>
     public void StartElevator()
     {
@@ -113,6 +115,10 @@ internal sealed class Elevator
         }
     }
     
+    /// <summary>
+    /// Moves to the floor and prints out where it's currently at.
+    /// </summary>
+    /// <param name="floor"></param>
     private void MoveToFloor(int floor)
     {
         Console.WriteLine($"Moving To Floor {floor}");
