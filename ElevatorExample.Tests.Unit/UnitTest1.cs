@@ -37,6 +37,7 @@ public class Tests
     public void DoorOpensAndCloses_IfElevatorIsOnSameFloor()
     {
         _elevator.FloorRequestElevator(1, ElevatorDirection.Up);
+        _elevator.StartElevator();
 
         Received.InOrder(() =>
         {
@@ -50,7 +51,7 @@ public class Tests
     public void IfFloorIsImmediatelyAboveAndBelowElevator_ShowMovingAndArrivedMessages()
     {
         _elevator.FloorRequestElevator(2, ElevatorDirection.Up);
-        
+        _elevator.StartElevator();
         
         Received.InOrder(() =>
         {
@@ -63,6 +64,7 @@ public class Tests
         _mockConsole.ClearReceivedCalls();
 
         _elevator.FloorRequestElevator(1, ElevatorDirection.Down);
+        _elevator.StartElevator();
         
         Received.InOrder(() =>
         {
@@ -77,7 +79,7 @@ public class Tests
     public void ShowPassingFloorMessages_WhenFloorDifferenceIsMoreThenOne()
     {
         _elevator.FloorRequestElevator(4, ElevatorDirection.Up);
-        
+        _elevator.StartElevator();
         
         Received.InOrder(() =>
         {
@@ -92,6 +94,7 @@ public class Tests
         _mockConsole.ClearReceivedCalls();
 
         _elevator.FloorRequestElevator(1, ElevatorDirection.Down);
+        _elevator.StartElevator();
         
         Received.InOrder(() =>
         {
@@ -110,6 +113,7 @@ public class Tests
         _elevator.FloorRequestElevator(2, ElevatorDirection.Up);
         _elevator.FloorRequestElevator(5, ElevatorDirection.Up);
         _elevator.FloorRequestElevator(3, ElevatorDirection.Down);
+        _elevator.StartElevator();
         
         Received.InOrder(() =>
         {

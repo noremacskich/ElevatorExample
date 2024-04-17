@@ -30,12 +30,7 @@ internal sealed class Elevator
         }
         
         _floorQueue.Add(new FloorRequest(floor, direction));
-        if (floor != CurrentFloor)
-        {
-            MoveToFloor(floor);
-        }
 
-        OpenDoor();
     }
     
     private void OpenDoor()
@@ -48,6 +43,21 @@ internal sealed class Elevator
     {
         Console.WriteLine("Closing Door");
     }
+
+    public void StartElevator()
+    {
+        if (_floorQueue.Count == 0)
+        {
+            Console.WriteLine("You need to add floors first!");
+        }
+
+        foreach (var floor in _floorQueue)
+        {
+            MoveToFloor(floor.number);
+        }
+        
+        _floorQueue.Clear();
+    }
     
     private void MoveToFloor(int floor)
     {
@@ -59,7 +69,6 @@ internal sealed class Elevator
             if (floor < CurrentFloor)
             {
                 CurrentFloor--;
-
             }
             else if (floor > CurrentFloor)
             {
@@ -71,5 +80,7 @@ internal sealed class Elevator
         }
        
         Console.WriteLine($"Arrived At Floor {CurrentFloor}");
+        
+        OpenDoor();
     }
 }
