@@ -1,4 +1,11 @@
 
+# Operations
+- Elevator Door will always open if the elevator is at the floor requested
+- Elevator will state any floors it's passing
+- Elevator will state what floor it's moving to, and when it has arrived at the floor
+- Elevator will not stop for mid-move pickups
+
+
 # Assumptions
 Due to simplicity sakes, the following cases are not covered
 

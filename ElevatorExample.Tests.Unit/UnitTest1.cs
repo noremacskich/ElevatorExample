@@ -34,7 +34,7 @@ public class Tests
     }
     
     [Test]
-    public void IfElevatorIsOnSameFloor_OpensThenClosesTheDoor()
+    public void DoorOpensAndCloses_IfElevatorIsOnSameFloor()
     {
         _elevator.FloorRequestElevator(1);
 
@@ -72,5 +72,62 @@ public class Tests
             _mockConsole.WriteLine("Closing Door");
         });
     }
+    
+    [Test]
+    public void ShowPassingFloorMessages_WhenFloorDifferenceIsMoreThenOne()
+    {
+        _elevator.FloorRequestElevator(4);
+        
+        
+        Received.InOrder(() =>
+        {
+            _mockConsole.WriteLine("Moving To Floor 4");
+            _mockConsole.WriteLine("Passing Floor 2");
+            _mockConsole.WriteLine("Passing Floor 3");
+            _mockConsole.WriteLine("Arrived At Floor 4");
+            _mockConsole.WriteLine("Opening Door");
+            _mockConsole.WriteLine("Closing Door");
+        });
+        
+        _mockConsole.ClearReceivedCalls();
 
+        _elevator.FloorRequestElevator(1);
+        
+        Received.InOrder(() =>
+        {
+            _mockConsole.WriteLine("Moving To Floor 1");
+            _mockConsole.WriteLine("Passing Floor 3");
+            _mockConsole.WriteLine("Passing Floor 2");
+            _mockConsole.WriteLine("Arrived At Floor 1");
+            _mockConsole.WriteLine("Opening Door");
+            _mockConsole.WriteLine("Closing Door");
+        });
+    }
+    
+    [Test]
+    public void WhileMovingBetweenFloors_ItWillStatAllFloorsItIsPassing()
+    {
+        _elevator.FloorRequestElevator(2);
+        _elevator.FloorRequestElevator(5);
+        _elevator.FloorRequestElevator(3);
+        
+        Received.InOrder(() =>
+        {
+            _mockConsole.WriteLine("Moving To Floor 2");
+            _mockConsole.WriteLine("Arrived At Floor 2");
+            _mockConsole.WriteLine("Opening Door");
+            _mockConsole.WriteLine("Closing Door");
+            _mockConsole.WriteLine("Moving To Floor 5");
+            _mockConsole.WriteLine("Passing Floor 3");
+            _mockConsole.WriteLine("Passing Floor 4");
+            _mockConsole.WriteLine("Arrived At Floor 5");
+            _mockConsole.WriteLine("Opening Door");
+            _mockConsole.WriteLine("Closing Door");
+            _mockConsole.WriteLine("Moving To Floor 3");
+            _mockConsole.WriteLine("Passing Floor 4");
+            _mockConsole.WriteLine("Arrived At Floor 3");
+            _mockConsole.WriteLine("Opening Door");
+            _mockConsole.WriteLine("Closing Door");
+        });
+    }
 }

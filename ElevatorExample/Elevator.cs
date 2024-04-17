@@ -27,6 +27,7 @@ internal sealed class Elevator
             Console.WriteLine($"That floor does not exist.  The floor range is from {BottomFloor} to {TopFloor}.");
             return;
         }
+        
         if (floor != CurrentFloor)
         {
             MoveToFloor(floor);
@@ -50,7 +51,22 @@ internal sealed class Elevator
     {
         Console.WriteLine($"Moving To Floor {floor}");
 
-        CurrentFloor = floor;
+        while (floor != CurrentFloor)
+        {
+
+            if (floor < CurrentFloor)
+            {
+                CurrentFloor--;
+
+            }
+            else if (floor > CurrentFloor)
+            {
+                CurrentFloor++;
+            }
+
+            if(floor != CurrentFloor)
+                Console.WriteLine($"Passing Floor {CurrentFloor}");
+        }
        
         Console.WriteLine($"Arrived At Floor {CurrentFloor}");
     }
